@@ -184,13 +184,7 @@ namespace Sprinterz
                 numPlay = getInt("Enter the number of players: (0-5) ", "Number of players must be an int");
             }
             List<Player> Players = new List<Player>();
-            if (numPlay == 0)
-            {
-                Player computer = new Player();
-                computer.Computer = true;
-                computer.Name = "Computer 1";
-                Players.Add(computer);
-            }
+          
            
             for (int i =1; i < numPlay+1; i++)
             {
@@ -228,7 +222,8 @@ namespace Sprinterz
                 }
 
 
-                for (int i = 1;i< numCPUPlay; i++){
+                for (int i = 1;i< numCPUPlay+1
+                    ; i++){
 
                     Player computer = new Player();
                     computer.Computer = true;
@@ -237,12 +232,19 @@ namespace Sprinterz
 
                 }
 
-                //Play w/ a computer
+                
                 
             }
 
 
-            if(Players.Count < 2)
+            if(Players.Count < 1)
+            {
+                Player computer = new Player();
+                computer.Computer = true;
+                computer.Name = "Computer 1";
+                Players.Add(computer);
+            }
+            if (Players.Count < 2)
             {
                 Player computer = new Player();
                 computer.Computer = true;
@@ -263,6 +265,35 @@ namespace Sprinterz
 
             }
 
+            int delay = 0;
+            Console.WriteLine("What Race Speed would you like? (slow,medium, fast,instant)");
+            string choice;
+            choice = Console.ReadLine();
+
+            while (choice !="slow" && choice != "medium" && choice != "fast" && choice != "instant")
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid Option Try again");
+                Console.ResetColor();
+                Console.WriteLine("What Race Speed would you like? (slow,medium, fast,instant)");
+                choice = Console.ReadLine();
+            }
+            if(choice == "instant")
+            {
+                delay = 0;
+            }
+            else if (choice == "fast")
+            {
+                delay = 50;
+            }
+            else if (choice == "medium")
+            {
+                delay = 100;
+            }
+            else
+            {
+                delay = 200;
+            }
 
             //Actual game goes here
             while (KeepOnPlaying)
@@ -375,7 +406,7 @@ namespace Sprinterz
                     //Console.WriteLine("\n\n\n\n\n\n\n");
                     Console.WriteLine("          _________________________________________________________");
                     Console.WriteLine("        |                                                         |");
-                    //System.Threading.Thread.Sleep(200);
+                    System.Threading.Thread.Sleep(delay);
                     foreach (Sprinter s in SprintersList)
                     {
 
@@ -457,7 +488,7 @@ namespace Sprinterz
                
             }
 
-            string won = "";
+            string won = "No one :( ";
             foreach(Player p in Players)
             {
                 if(p.Lost == false)
